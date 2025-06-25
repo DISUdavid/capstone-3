@@ -11,7 +11,7 @@ import org.yearup.models.Product;
 import java.util.List;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("categories")
 @CrossOrigin
 public class CategoriesController
 {
@@ -25,12 +25,14 @@ public class CategoriesController
     }
 
    @GetMapping
+   @PreAuthorize("permitAll()")
     public List<Category> getAll()
     {
         return categoryDao.getAllCategories();
     }
 
     @GetMapping("{categoryId}")
+    @PreAuthorize("permitAll()")
     public Category getById(@PathVariable int categoryId )
     {
         return categoryDao.getById(categoryId);
@@ -39,6 +41,7 @@ public class CategoriesController
     // the url to return all products in category 1 would look like this
     // https://localhost:8080/categories/1/products
     @GetMapping("{categoryId}/1/products")
+    @PreAuthorize("permitAll()")
     public List<Product> getProductsById(@PathVariable int categoryId)
     {
         return productDao.listByCategoryId(categoryId);
@@ -46,14 +49,14 @@ public class CategoriesController
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Category addCategory(@RequestBody Category category)
     {
         return categoryDao.create(category);
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateCategory(@PathVariable int id, @RequestBody Category category)
     {
        categoryDao.update(id,category);
@@ -61,7 +64,7 @@ public class CategoriesController
 
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteCategory(@PathVariable int id)
     {
         categoryDao.delete(id);
