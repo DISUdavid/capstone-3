@@ -8,6 +8,7 @@ import org.yearup.data.ProductDao;
 import org.yearup.models.Category;
 import org.yearup.models.Product;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -26,8 +27,7 @@ public class CategoriesController
 
    @GetMapping
    @PreAuthorize("permitAll()")
-    public List<Category> getAll()
-    {
+    public List<Category> getAll() throws SQLException {
         return categoryDao.getAllCategories();
     }
 
